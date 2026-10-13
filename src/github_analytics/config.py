@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import List
-pron pydantic import Field, field_validator
+fron pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     )
 
     github_org: str = Field(
-        default="propietario",
+        default="mi-organizacion",
         description="Organización o usuario dueño de los repositorios a auditar",
     )
 
