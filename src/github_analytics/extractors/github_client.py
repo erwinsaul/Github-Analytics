@@ -158,7 +158,7 @@ class GitHubAPIClient:
     ) -> List[Dict[str, Any]]:
         """Extrae todos los issues y PRs de un repositorio."""
         endpoint = f"repos/{org}/{repo}/issues"
-        params = {"state": state, "sort": "created", "direction": "asc""}
+        params = {"state": state, "sort": "created", "direction": "asc"}
         all_records = []
         for page in self.paginate(endpoint, params=params, max_pages=max_pages):
             all_records.extend(page)
