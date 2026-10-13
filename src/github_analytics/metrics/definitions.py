@@ -1,8 +1,14 @@
 """Definición formal de contratos de datos, enums y constantes de negocio."""
-
-from enum import StrEnum
+import sys
 from typing import NamedTuple
 from pydantic import BaseModel, Field
+
+if sys.version_info >= (3,11):
+    from enum import StrEnum
+else:
+    from enum import Enum
+    class StrEnum(str, Enum):
+        pass
 
 class IssueState(StrEnum):
     """Estados posibles para un issue en GitHub."""
