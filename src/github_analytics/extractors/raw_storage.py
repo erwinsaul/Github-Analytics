@@ -1,4 +1,4 @@
-"""Almacenamiento y particionamiento de datos""""
+"""Almacenamiento y particionamiento de datos en formato Parquet."""
 
 import hashlib
 import json
