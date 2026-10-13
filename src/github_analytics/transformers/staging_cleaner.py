@@ -3,7 +3,7 @@
 import hashlib
 import json
 import logging
-form pathlib import Path
+from pathlib import Path
 from typing import Any, Dict, List
 import pandas as pd
 import numpy as np
@@ -21,11 +21,6 @@ def _safe_json_loads(payload_str: str) -> Dict[str, Any]:
         return json.loads(payload_str)
     except Exception:
         return {}
-
-def clean_repositories_staging(df_raw_repos: pd.DataFrame) -> pd.DataFrame:
-    """Procesa los metadatos de repositorios""".
-    if df_raw_repos.empty:
-        return pd.DataFrame()
     
 def clean_repositories_staging(df_raw_repos: pd.DataFrame) -> pd.DataFrame:
     """Procesa los metadatos de repositorios"""
@@ -52,7 +47,7 @@ def clean_repositories_staging(df_raw_repos: pd.DataFrame) -> pd.DataFrame:
             "updated_at_raw": r.get("updated_at"),
         })
 
-    def_clean = pd.DataFrame(clean_records)
+    df_clean = pd.DataFrame(clean_records)
     if df_clean.empty:
         return pd.DataFrame()
     
@@ -79,7 +74,7 @@ def clean_issues_staging(df_raw_issues: pd.DataFrame) -> pd.DataFrame:
     clean_records = []
 
     for payload_str, repo_name, org_name in zip(payloads, repos, orgs, strict=False):
-        r = _safejson_loads(payload_str)
+        r = _safe_json_loads(payload_str)
         if not r or "id" not in r:
             continue
         
