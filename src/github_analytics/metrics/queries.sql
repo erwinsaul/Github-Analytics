@@ -6,7 +6,7 @@
 WITH issue_scoped AS(
     SELECT
         i.*,
-        r.nombre as repo_name,
+        r.nombre as repo_name
     FROM fct_issue i
     JOIN dim_repo r ON i.repo_key = r.repo_key
     WHERE (:repo_filter IS NULL OR r.nombre = :repo_filter)
@@ -20,7 +20,7 @@ SELECT
         (COUNT(CASE WHEN estado = 'closed' THEN 1 END)::DOUBLE / NULLIF(COUNT(*), 0)) * 100.0, 2
     ) as tasa_cierre_pct,
     ROUND(AVG(CASE WHEN estado = 'closed' THEN lead_time_dias END), 2) as lead_time_promedio_dias,
-    ROUND(PERCENTILE_COUNT(0.85) WITHIN GROUP (ORDERY BY lead_times_dias), 2) as lead_time_p85_dias,
+    ROUND(PERCENTILE_CONT(0.85) WITHIN GROUP (ORDER BY lead_time_dias), 2) as lead_time_p85_dias,
     ROUND(AVG(cant_comentarios),2) as promedio_cometarios_por_isue
 FROM issue_scoped;
 
@@ -29,7 +29,7 @@ SELECT
     df.anio,
     df.semana_anio,
     MIN(df.fecha_key) as inicio_semana,
-    COUNT(i.issue_key) as issues_cerrados,
+    COUNT(i.issue_key) as issues_cerrados
 FROM fct_issue i
 JOIN dim_fecha df ON i.fecha_cierre_key = df.fecha_key
 JOIN dim_repo r ON i.repo_key = r.repo_key
@@ -71,7 +71,7 @@ WITH issues_cerrados_autor AS(
 commits_autor AS(
     SELECT
         autor_user_key,
-        COUNT(*) as total_commits,
+        COUNT(*) as total_commits
     FROM fct_commit
     GROUP BY autor_user_key
 )
