@@ -76,7 +76,7 @@ class WarehouseManager:
                         repo_name as nombre,
                         full_name as nombre_completo,
                         owner_login as organizacion,
-                        languaje as lenguaje_principal,
+                        language as lenguaje_principal,
                         is_private as es_privado,
                         html_url,
                         description as descripcion,
