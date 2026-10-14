@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from github_analytics.config import settings
-from github_analyticis.metrics.calculator import MetricsCalculator
+from github_analytics.metrics.calculator import MetricsCalculator
 from app.components import (
     plot_lead_time_distribution,
     plot_student_contributions,
@@ -58,7 +58,7 @@ def main() -> None:
         value=(default_start, default_end),
     )
 
-    if isinstance(data_range, tuple) and len(data_range) == 2:
+    if isinstance(selected_range, tuple) and len(selected_range) == 2:
         start_date, end_date = date_range
     else:
         start_date, end_date = default_start, default_end
@@ -75,7 +75,7 @@ def main() -> None:
 
     # --- TARJETAS DE KPIS ---
     try:
-        kpis = cal.get_executive_kpis(repo_name=selected_repo, start_date=start_date, end_date=enda_date)        
+        kpis = calc.get_executive_kpis(repo_name=selected_repo, start_date=start_date, end_date=end_date)        
     except Exception as e:
         st.error(f"Error al cargar KPIs: {e}")
         return
@@ -101,9 +101,9 @@ def main() -> None:
         c1, c2 = st.columns([3, 2])
         with c1:
             df_tp = calc.get_weekly_throughput(repo_name=selected_repo, start_date=start_date,end_date=end_date)
-            st.plottly_chart(plot_weekly_throughput(df_tp), use_container_width=True)
+            st.plotly_chart(plot_weekly_throughput(df_tp), use_container_width=True)
         with c2:
-            df_hist = calc.get_lead_time_histogram(repo_name=selected_repo, start_date=start, end_date=end_date)
+            df_hist = calc.get_lead_time_histogram(repo_name=selected_repo, start_date=start_date, end_date=end_date)
             sp.plotly_chart(plot_lead_time_distribution(df_hist), use_container_width=True)
     
     with tab2:
