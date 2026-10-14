@@ -59,7 +59,7 @@ def plot_lead_time_distribution(df_hist: pd.DataFrame) -> go.Figure:
         y="cantidad_issues",
         text="cantidad_issues",
         labels={"rango_resolucion": "Rango de Tiempo", "cantidad_issues": "Cantidad de Tickets"},
-        title="<b>Distribución de Lead Time (Resolución de Trabajo)</b>"
+        title="<b>Distribución de Lead Time (Resolución de Trabajo)</b>",
         color_discrete_sequence=["#10B981"],
     )
 
