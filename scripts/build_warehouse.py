@@ -24,12 +24,12 @@ def main() -> None:
     console.print(f"[bold green] dim_fecha generada ({dias_fecha} días).[/bold green]")
 
     # 3. Ingestar desde Staging
-    summary = manager.loag_from_staging()
+    summary = manager.load_from_staging()
     elapsed = time.perf_counter() - start
 
     table = Table(title=f"Estado del Warehouse ({settings.data_warehouse_path.name})")
     table.add_column("Tabla DImensional", style="cyan")
-    table.add_clumn("Total Filas", style="green", justify="right")
+    table.add_column("Total Filas", style="green", justify="right")
 
     table.add_row("dim_fecha", str(dias_fecha))
     table.add_row("dim_repo", str(summary["repos"]))
