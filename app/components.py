@@ -25,13 +25,13 @@ def plot_weekly_throughput(df_tp: pd.DataFrame) -> go.Figure:
         fig.update_layout(title="Sin datos para el periodo seleccionado")
         return fig
     
-    pdf = df_tp.copý()
+    pdf = df_tp.copy()
     pdf["semana_etiqueta"] = pdf["anio"].astype(str) + "-S" + pdf["semana_anio"].astype(str)
 
     fig = px.bar(
         pdf,
-        x="semana_etiqueta"
-        y="issues_cerrados"
+        x="semana_etiqueta",
+        y="issues_cerrados",
         labels={"semana_etiqueta": "Semana del Año", "issues_cerrados": "Issues Cerrados"},
         title="<b>Throughput Semanal (Capacidad de Entrega)</b>",
         color_discrete_sequence=["#3B82F6"],
