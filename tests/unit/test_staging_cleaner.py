@@ -9,7 +9,7 @@ from github_analytics.transformers.staging_cleaner import (
     clean_repositories_staging,
 )
 
-def test_clean_repositories_staging() -> None:
+def test_clean_repositories_staging(sample_raw_repository_json: Dict[str, Any]) -> None:
     """Valida el proceso de limpieza de datos de repositorios en staging."""
     df_raw = pd.DataFrame({
         "raw_payload": [json.dumps(sample_raw_repository_json)],
@@ -47,5 +47,5 @@ def test_clean_issues_staging_lead_time_calculation(sample_raw_issues_json: list
     # Issue 102 abierto: lead_time deb
     row_open = df_clean[df_clean["issue_id"] == 102].to_dict("records")[0]
     assert row_open["state"] == "open"
-    assert row_open["lead_time_hours"] is None
+    assert pd.isna(row_open["lead_time_hours"])
     assert row_open["assignee_login"] == "sin_asignar"
