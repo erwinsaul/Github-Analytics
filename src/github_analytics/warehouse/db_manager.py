@@ -18,7 +18,7 @@ class WarehouseManager:
         """Retorna una conexión a la base de datos."""
         return duckdb.connect(str(self.db_path))
     
-    def initialize_schema(slef, ddl_path: Path | None = None) -> None:
+    def initialize_schema(self, ddl_path: Path | None = None) -> None:
         """Ejecuta el script SQL DDL para crear las tablas si no existen."""
         ddl_file = ddl_path or (Path(__file__).parent / "ddl.sql")
         with open(ddl_file, "r", encoding="utf-8") as f:
@@ -40,9 +40,9 @@ class WarehouseManager:
             STRFTIME(d, '%B') as nombre_mes,
             EXTRACT(DAY FROM d)::INTEGER as dia,
             EXTRACT(QUARTER FROM d)::INTEGER as trimestre,
-            EXTRACT(DOWN FROM d)::INTEGER as dia_semana,
+            EXTRACT(DOW FROM d)::INTEGER as dia_semana,
             STRFTIME(d, '%A') as nombre_dia,
-            CASE WHEN EXTRACT(DOWN FROM d) IN (0, 6) THEN TRUE ELSE FALSE END as es_fin_de_semana,
+            CASE WHEN EXTRACT(DOW FROM d) IN (0, 6) THEN TRUE ELSE FALSE END as es_fin_de_semana,
             EXTRACT(WEEK FROM d)::INTEGER as semana_anio
         FROM generate_series(
             DATE '{start_year}-01-01',
@@ -76,7 +76,7 @@ class WarehouseManager:
                         repo_name as nombre,
                         full_name as nombre_completo,
                         owner_login as organizacion,
-                        lenguaje as lenguaje_principal,
+                        languaje as lenguaje_principal,
                         is_private as es_privado,
                         html_url,
                         description as descripcion,
@@ -130,8 +130,8 @@ class WarehouseManager:
                         state as estado,
                         is_pull_request as es_pull_request,
                         comments_count as cant_comentarios,
-                        lead_time_hours,
-                        lead_time_days,
+                        lead_time_hours as lead_time_horas,
+                        lead_time_dias,
                         created_at_utc,
                         closed_at_utc,
                         updated_at_utc
@@ -158,6 +158,6 @@ class WarehouseManager:
 
                 result["commits"] = conn.execute("SELECT COUNT(*) FROM fct_commit").fetchone()[0]
         
-        logger.info("Cargar a DuckDB completado: %s", results)
-        return results
+        logger.info("Cargar a DuckDB completado: %s", result)
+        return result
         
