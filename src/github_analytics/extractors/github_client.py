@@ -108,6 +108,18 @@ class GitHubAPIClient:
         response.raise_for_status()
         return response
     
+    def check_connection(self) -> Dict[str, Any]:
+        """Verifica la conectividad y devuelve la cuota de rate limit disponible"""
+        response = self._execute_request(f"{self.base_url}/rate_limit")
+        data = response.json()
+        core = data.get("resources", {}).get("core", {})
+        return {
+            "status": "ok",
+            "limit": core.get("limit", 0),
+            "remaining": core.get("remaining", 0)
+            "reset_ts": core.get("reset", 0)
+        }
+    
     def paginate(
         self,
         endpoint: str,
