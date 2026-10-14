@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 def parse_repo_input(raw_input: str) -> tuple[str, List[str]]:
     """Parsea una URL de GitHub o una cadena 'propietario/repo'"""
-    test = raw_input.strip()
+    text = raw_input.strip()
     if text.startswith("http://") or text.startswith("https://"):
         text = text.replace("https://github.com", "").replace("http://github.com", "")
     text = text.strip("/")
@@ -35,7 +35,7 @@ class PipelineExecutionService:
         progress_callback: Optional[Callable[[str, str], None]] = None,
     ) -> None:
         self.token = token or settings.github_token
-        self.org = org or settings.github_token
+        self.org = org or settings.github_org
         self.repos = repos or settings.github_repos
         self.progress_callback = progress_callback or (lambda step, msg: None)
 
@@ -59,7 +59,7 @@ class PipelineExecutionService:
         self.progress_callback("Bronze", "Extracción cruda finalizada con éxito.")
 
         # 2. Capa Silver (Staging y limpieza en Pandas)
-        self.proress_callback("Silver", "Limpiando y tipando datos hacia la capa Staging...")
+        self.progress_callback("Silver", "Limpiando y tipando datos hacia la capa Staging...")
         staging_pipeline = StagingPipeline()
         silver_summary = staging_pipeline.run()
         result["silver"] = silver_summary
