@@ -116,8 +116,8 @@ class GitHubAPIClient:
         return {
             "status": "ok",
             "limit": core.get("limit", 0),
-            "remaining": core.get("remaining", 0)
-            "reset_ts": core.get("reset", 0)
+            "remaining": core.get("remaining", 0),
+            "reset_ts": core.get("reset", 0),
         }
     
     def paginate(
