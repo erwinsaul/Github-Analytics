@@ -58,8 +58,8 @@ def main() -> None:
         value=(default_start, default_end),
     )
 
-    if isinstance(selected_range, tuple) and len(selected_range) == 2:
-        start_date, end_date = date_range
+    if isinstance(default_range, tuple) and len(default_range) == 2:
+        start_date, end_date = default_range
     else:
         start_date, end_date = default_start, default_end
     
@@ -72,6 +72,16 @@ def main() -> None:
         f'<div class="sub-header">Métricas de rendimiento para <b>{selected_repo_option}</b>({start_date} al {end_date})</div>',
         unsafe_allow_html=True,
     )
+
+    if not available_repos:
+        st.info(
+            "**¡Bienvenido a GitHub Analytics!**\n\n"
+            "El Data Warehouse local aun no contiene datos. Para coemnzar\n"
+            "1. En el panel lateral izquierdo, ingresa tu GitHub Token\n"
+            "2. Escribe el repositorio\n"
+            "3. Presiona el boton **Descargar** para iniciar la descarga, procesamiento y carga."
+        )
+        return
 
     # --- TARJETAS DE KPIS ---
     try:
@@ -104,7 +114,7 @@ def main() -> None:
             st.plotly_chart(plot_weekly_throughput(df_tp), use_container_width=True)
         with c2:
             df_hist = calc.get_lead_time_histogram(repo_name=selected_repo, start_date=start_date, end_date=end_date)
-            sp.plotly_chart(plot_lead_time_distribution(df_hist), use_container_width=True)
+            st.plotly_chart(plot_lead_time_distribution(df_hist), use_container_width=True)
     
     with tab2:
         df_students = calc.get_student_contributions()
