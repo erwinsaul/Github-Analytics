@@ -10,7 +10,7 @@ from github_analytics.extractors.raw_storage import RawDataLakeWriter
 
 console = Console()
 logging.basicConfig(
-    level=getattr(loggin, settings.log_level.upper(). logging.INFO),
+    level=getattr(logging, settings.log_level.upper(), logging.INFO),
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 
