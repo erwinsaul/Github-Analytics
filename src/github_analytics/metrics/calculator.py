@@ -21,7 +21,7 @@ class MetricsCalculator:
         self,
         repo_name: Optional[str] = None,
         start_date: Optional[date] = None,
-        end_date: Opctional[date] = None,
+        end_date: Optional[date] = None,
     ) -> Dict[str, Any]:
         """Calcula los indicadores macro de flujo y eficiencia"""
         s_date = start_date or date(2020, 1, 1)
@@ -31,7 +31,7 @@ class MetricsCalculator:
         WITH issue_scoped AS(
             SELECT
                  i.*,
-                 r.nombre as repo_name,
+                 r.nombre as repo_name
             FROM fct_issue i
             JOIN dim_repo r ON i.repo_key = r.repo_key
             WHERE (? IS NULL OR r.nombre = ?)
@@ -43,7 +43,7 @@ class MetricsCalculator:
             COUNT(CASE WHEN estado = 'open' THEN 1 END)::BIGINT as total_abiertos,
             COALESCE(ROUND((COUNT(CASE WHEN estado = 'closed' THEN 1 END)::DOUBLE / NULLIF(COUNT(*), 0)) * 100.0, 2), 0.0) as tasa_cierre_pct,
             COALESCE(ROUND(AVG(CASE WHEN estado = 'closed' THEN lead_time_dias END), 2), 0.0) as lead_time_promedio_dias,
-            COALESCE(ROUND(PERCENTILE_COUNT(0.85) WITHIN GROUP (ORDERY BY lead_times_dias), 2), 0.0) as lead_time_p85_dias,
+            COALESCE(ROUND(PERCENTILE_CONT(0.85) WITHIN GROUP (ORDER BY lead_time_dias), 2), 0.0) as lead_time_p85_dias,
             COALESCE(ROUND(AVG(cant_comentarios),2), 0.0) as promedio_comentarios
         FROM issue_scoped;
         """
@@ -84,10 +84,10 @@ class MetricsCalculator:
           AND (? IS NULL OR r.nombre = ?)
           AND df.fecha_key BETWEEN ? AND ?
         GROUP BY df.anio, df.semana_anio
-        ODER BY df.anio, df.semana_anio;
+        ORDER BY df.anio, df.semana_anio;
         """
 
-        withself._get_conn() as conn:
+        with self._get_conn() as conn:
             return conn.execute(query, [repo_name, repo_name, s_date, e_date]).df()
     
     def get_lead_time_histogram(
@@ -138,7 +138,7 @@ class MetricsCalculator:
         commits_autor AS(
             SELECT
                 autor_user_key,
-                COUNT(*) as total_commits,
+                COUNT(*) as total_commits
             FROM fct_commit
             GROUP BY autor_user_key
         )
