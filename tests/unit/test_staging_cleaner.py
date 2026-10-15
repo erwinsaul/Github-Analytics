@@ -2,6 +2,7 @@
 
 import json
 from datetime import datetime, timezone
+from typing import Any, Dict, List
 import pandas as pd
 import pytest
 from github_analytics.transformers.staging_cleaner import (
