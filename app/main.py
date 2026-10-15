@@ -5,7 +5,9 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from github_analytics.config import settings
+from github_analytics.extractors.github_client import GitHubAPIClient
 from github_analytics.metrics.calculator import MetricsCalculator
+from github_analitycs.pipeline_service import PipelineExecutionService, parse_repo_input
 from app.components import (
     plot_lead_time_distribution,
     plot_student_contributions,
@@ -36,9 +38,29 @@ def main() -> None:
     calc = get_calculator()
 
     # --- SIDEBAR DE FILTROS ---
-    st.sidebar.image("https://img.icons8.com/fluency/96/source-code.png", width=64)
     st.sidebar.title("GitHub Analytics")
-    st.sidebar.markdown(f"**Organización:** `{settings.github_org}`")
+    st.sidebar.caption("Data Warehouse y Métricas de Flujo de Software")
+
+    st.sidebar.divider()
+    st.sidebar.subheader("Configuración y Descarga")
+
+    input_token = st.sidebar.text_input(
+        "Github Personal Access Token:",
+        value=settings.github_token,
+        type="password",
+        help="Token con permisos de lectura,",
+    )
+
+    default_repo_text = (
+        f"{settings.github_org}/{settings.github_repos[0]}"
+        if settings.github_repos
+        else "pallets/flask"
+    )
+    input_repo = st.sidebar.text_input(
+        "Repositorio o URL de GitHub:",
+        value=default_repo_text,
+        help="Ejemplos: 'pallets/flask' p 'https://github.com/psf/requests'",
+    )
 
     # Lista de repositorios
     try:
