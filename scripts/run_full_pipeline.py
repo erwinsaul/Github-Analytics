@@ -10,7 +10,7 @@ def main() -> None:
     console.rule("[bold cyan]Ejecucion End-to-End del Pipeline Analítico[/bold cyan]")
     start = time.perf_counter()
     
-    service = PipelineExecutionSergice(
+    service = PipelineExecutionService(
         progress_callback=lambda step, msg: console.print(f"[{step}] {msg}")
     )
     result = service.run_full_pipeline()
