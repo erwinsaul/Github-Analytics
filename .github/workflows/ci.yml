@@ -1,0 +1,37 @@
+name: CI - Integración Continua y Calidad
+
+on:
+  push:
+    branches: [main, master, develop]
+    pull_request: [main, master]
+  
+  jobs:
+    test-and-list:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          python-version: ["3.11", "3.12"]
+      
+      steps:
+        - name: Clonar repositorio
+          uses: actions/checkout@v4
+        
+        - name: Configurar Python ${{ matrix.python-version}}
+          uses: actions/setup-python@v5
+          with:
+            python-version: ${{ matrix.python-version }}
+            cache: "pip"
+        
+        - name: Instalar dependencias
+          run: |
+            python -m pip install --upgrade pip setuptools wheel
+            pip install -r requirements.txt
+            pip install -e
+          
+        - name: Validar estilo y sintaxis con Ruff
+          run: |
+            ruff check src/ tests/ app/ scripts/
+        
+        - name: Ejecutar suite de pruebas con Pytest
+          run: |
+            pytest -ra -v --cov=src/github_analitics --cov-report=term-missing            
