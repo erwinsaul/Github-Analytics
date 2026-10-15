@@ -7,7 +7,7 @@ import streamlit as st
 from github_analytics.config import settings
 from github_analytics.extractors.github_client import GitHubAPIClient
 from github_analytics.metrics.calculator import MetricsCalculator
-from github_analitycs.pipeline_service import PipelineExecutionService, parse_repo_input
+from github_analytics.pipeline_service import PipelineExecutionService, parse_repo_input
 from app.components import (
     plot_lead_time_distribution,
     plot_student_contributions,
@@ -61,6 +61,49 @@ def main() -> None:
         value=default_repo_text,
         help="Ejemplos: 'pallets/flask' p 'https://github.com/psf/requests'",
     )
+
+    col_btn1, col_btn2 = st.sidebar.columns(2)
+    with col_btn1:
+        if st.button("Probar API", use_container_width=True):
+            try:
+                with GitHubAPIClient(token=input_token) as client:
+                    info = client.check_connection()
+                    st.sidebar.success(
+                        f"Conexion OK. Cuota: {info['remaining']}/{info['limit']} peticiones."
+                    )
+            except Exception as e:
+                st.sidebar.error(f"Error de conexión: {e}")
+    
+    with col_btn2:
+        start_sync = st.button("Descargar", type="primary", use_container_width=True)
+    
+    if start_sync:
+        if not input_repo.strip():
+            st.sidebar.warning("Por favor especifica un repositorio.")
+        else:
+            org, repos = parse_repo_input(input_repo)
+            with st.status("Ejecutanto Pipeline de Datos...", expanded=True) as status:
+                st.write(f"Conectando con **{org}** y repositorios `{repos}`...")
+
+                try:
+                    orchestrator = PipelineExecutionService(
+                        token=input_token,
+                        org=org,
+                        repos=repos,
+                        progress_callback=lambda step, msg: st.write(f"- **[{step}]** {msg}"),
+                    )
+                    res = orchestrator.run_full_pipeline()
+
+                    status.update(
+                        label="¡Pipeline compeltado con éxito! Recargando dashboard...",
+                        state="complete",
+                        expanded=False,
+                    )
+                    st.cache_resource.clear()
+                    st.rerun()
+                except Exception as ex:
+                    status.update(label=f"Error en el pipeline: {ex}", state="error")
+                    st.error(f"Falla durante la sincronización: {ex}")
 
     # Lista de repositorios
     try:
