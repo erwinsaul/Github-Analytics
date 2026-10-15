@@ -88,7 +88,7 @@ def plot_student_contributions(df_students: pd.DataFrame) -> go.Figure:
         marker=dict(color="#6366F1")
     ))
     fig.add_trace(go.Bar(
-        y=pdf["username"]
+        y=pdf["username"],
         x=pdf["issues_resueltos"],
         name="Issues Resueltos",
         orientation="h",
