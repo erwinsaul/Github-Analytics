@@ -52,7 +52,7 @@ class PipelineExecutionService:
         self.progress_callback("Bronze", f"Extrayendo datos de {len(self.repos)} repositorios de {self.org}...")
         client = GitHubAPIClient(token=self.token)
         writer = RawDataLakeWriter()
-        raw_pipeline = RawIngestionPipeline(client=client, storage_writer=writer)
+        raw_pipeline = RawIngestionPipeline(client=client, writer=writer)
 
         bronze_summary = raw_pipeline.run_for_repositories(org=self.org, repos=self.repos)
         result["bronze"] = bronze_summary
@@ -60,8 +60,8 @@ class PipelineExecutionService:
 
         # 2. Capa Silver (Staging y limpieza en Pandas)
         self.progress_callback("Silver", "Limpiando y tipando datos hacia la capa Staging...")
-        staging_pipeline = StagingPipeline()
-        silver_summary = staging_pipeline.run()
+        staging_pipeline = StagingDataCleaner()
+        silver_summary = cleaner.process_all()
         result["silver"] = silver_summary
         self.progress_callback("Silver", "Transformación a Parquet limpio finalizado.")
 
