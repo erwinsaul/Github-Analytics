@@ -54,7 +54,7 @@ def main() -> None:
         stu_table.add_row(
             row["username"],
             str(row["total_commits"]),
-            str(row["issues_cerrados"]),
+            str(row["issues_creados"]),
             str(row["issues_resueltos"]),
             str(row["lead_time_promedio_dias"]),
         )
