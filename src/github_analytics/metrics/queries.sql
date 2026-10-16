@@ -62,7 +62,7 @@ ORDER BY 1;
 WITH issues_cerrados_autor AS(
     SELECT
         autor_user_key,
-        COUNT(*) as issues_cerrados,
+        COUNT(*) as issues_creados,
         COUNT( CASE WHEN estado = 'closed' THEN 1 END) as issues_resueltos,
         AVG(CASE WHEN estado = 'closed' THEN lead_time_dias END) as lead_time_avg
     FROM fct_issue
