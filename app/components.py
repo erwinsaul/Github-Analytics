@@ -39,7 +39,7 @@ def plot_weekly_throughput(df_tp: pd.DataFrame) -> go.Figure:
 
     fig.update_layout(
         template="plotly_white",
-        margin=dict(l=20, r=20, t=50, b=20),
+        margin={"l": 20, "r": 20, "t": 50, "b": 20},
         hovermode="x unified",
     )
 
@@ -66,7 +66,7 @@ def plot_lead_time_distribution(df_hist: pd.DataFrame) -> go.Figure:
     fig.update_traces(textposition="outside")
     fig.update_layout(
         template="plotly_white",
-        margin=dict(l=20, r=20, t=50, b=20),        
+        margin={"l": 20, "r":20, "t": 50, "b":20},
     )
     return fig
 
@@ -85,22 +85,22 @@ def plot_student_contributions(df_students: pd.DataFrame) -> go.Figure:
         x=pdf["total_commits"],
         name="Commits Realizados",
         orientation="h",
-        marker=dict(color="#6366F1")
+        marker={"color": "#6366F1"}
     ))
     fig.add_trace(go.Bar(
         y=pdf["username"],
         x=pdf["issues_resueltos"],
         name="Issues Resueltos",
         orientation="h",
-        marker=dict(color="#EC4899"),
+        marker={color:"#EC4899"},
     ))
 
     fig.update_layout(
         barmode="group",
         title="<b>Actividad de Colaboradores: Commits vs Issues Resueltos</b>",
         template="plotly_white",
-        yaxis=dict(autorange="reversed"),
-        margin=dict(l=20, r=20, t=50, b=20),        
+        yaxis={autorange:"reversed"},
+        margin={"l": 20, "r":20, "t": 50, "b":20},
     )
 
     return fig

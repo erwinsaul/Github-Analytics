@@ -1,7 +1,6 @@
 """Script ejecutable para mostrar un reporte ejecutivo de métricas en consola"""
 
 from rich.console import Console
-from rich.panel import Panel
 from rich.table import Table
 from github_analytics.metrics.calculator import MetricsCalculator
 
