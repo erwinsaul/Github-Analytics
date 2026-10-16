@@ -145,13 +145,13 @@ class MetricsCalculator:
         SELECT
             u.username,
             COALESCE(ca.total_commits, 0)::INTEGER as total_commits,
-            COALESCE(ica.issues_cerrados, 0)::INTEGER as issues_cerrados,
+            COALESCE(ica.issues_creados, 0)::INTEGER as issues_creados,
             COALESCE(ica.issues_resueltos, 0)::INTEGER as issues_resueltos,
             ROUND(COALESCE(ica.lead_time_avg, 0.0), 2) as lead_time_promedio_dias
         FROM dim_usuario u
         LEFT JOIN commits_autor ca ON u.user_key = ca.autor_user_key
         LEFT JOIN issues_cerrados_autor ica ON u.user_key = ica.autor_user_key
-        WHERE COALESCE(ca.total_commits, 0) > 0 OR COALESCE(ica.issues_cerrados, 0) > 0
+        WHERE COALESCE(ca.total_commits, 0) > 0 OR COALESCE(ica.issues_creados, 0) > 0
         ORDER BY total_commits DESC, issues_resueltos DESC;
         """
         with self._get_conn() as conn:
