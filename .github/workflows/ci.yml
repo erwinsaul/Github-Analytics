@@ -35,4 +35,4 @@ jobs:
         
       - name: Ejecutar suite de pruebas con Pytest
         run: |
-          pytest -ra -v --cov=src/github_analitics --cov-report=term-missing            
+          pytest -ra -v --cov=src/github_analytics --cov-report=term-missing            

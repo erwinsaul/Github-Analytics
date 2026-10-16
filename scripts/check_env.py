@@ -9,8 +9,9 @@ from github_analytics.config import settings
 console = Console()
 
 def check_python_version() -> bool:
+    """Valida que la versión de Python sea compatible (>=3.10)"""
     major, minor = sys.version_info.major, sys.version_info.minor
-    is_valid = (major, minor) >= (3, 11)
+    is_valid = (major, minor) >= (3, 10)
     status = "[bold green]OK[/bold green]" if is_valid else "[bold red]FALLÓ[/bold red]"
     console.print(f"Versión de Python: {major}.{minor}.{sys.version_info.micro} -> {status}")
     return is_valid

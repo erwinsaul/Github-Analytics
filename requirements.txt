@@ -9,7 +9,7 @@ pyarrow==16.0.0
 
 # Configuración y Validación
 pydantic==2.7.1
-python-settings==2.2.1
+pydantic-settings==2.2.1
 python-dotenv==1.0.1
 
 # Visualización
