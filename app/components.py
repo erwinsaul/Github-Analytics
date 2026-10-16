@@ -92,14 +92,14 @@ def plot_student_contributions(df_students: pd.DataFrame) -> go.Figure:
         x=pdf["issues_resueltos"],
         name="Issues Resueltos",
         orientation="h",
-        marker={color:"#EC4899"},
+        marker={"color":"#EC4899"},
     ))
 
     fig.update_layout(
         barmode="group",
         title="<b>Actividad de Colaboradores: Commits vs Issues Resueltos</b>",
         template="plotly_white",
-        yaxis={autorange:"reversed"},
+        yaxis={"autorange":"reversed"},
         margin={"l": 20, "r":20, "t": 50, "b":20},
     )
 
