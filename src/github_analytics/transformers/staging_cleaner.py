@@ -198,7 +198,7 @@ class StagingDataCleaner:
 
         repo_files = list(self.raw_dir.glob("entity=repository/**/*.parquet"))
         if repo_files:
-            df_raw = pd.read_parquet(repo_files, partitionin=None)
+            df_raw = pd.read_parquet(repo_files, partitioning=None)
             df_stg_repos = clean_repositories_staging(df_raw)
             if not df_stg_repos.empty:
                 out_path = self.staging_dir / "stg_repositories.parquet"
