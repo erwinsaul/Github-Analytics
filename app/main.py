@@ -1,19 +1,32 @@
 """Aplicación de Streamlit"""
-
+import sys
 from datetime import date, timedelta
 from pathlib import Path
-import pandas as pd
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import streamlit as st
 from github_analytics.config import settings
 from github_analytics.extractors.github_client import GitHubAPIClient
 from github_analytics.metrics.calculator import MetricsCalculator
 from github_analytics.pipeline_service import PipelineExecutionService, parse_repo_input
-from app.components import (
-    plot_lead_time_distribution,
-    plot_student_contributions,
-    plot_weekly_throughput,
-    render_kpi_card,
-)
+try:
+    from app.components import (
+        plot_lead_time_distribution,
+        plot_student_contributions,
+        plot_weekly_throughput,
+        render_kpi_card,
+    )
+except ModuleNotFoundError:
+    from components import (
+        plot_lead_time_distribution,
+        plot_student_contributions,
+        plot_weekly_throughput,
+        render_kpi_card,
+    )
+
 
 st.set_page_config(
     page_title="Github Analytics | Flujo de Desarrollo",
