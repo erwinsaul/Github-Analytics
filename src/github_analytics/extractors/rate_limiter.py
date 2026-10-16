@@ -33,7 +33,7 @@ class RateLimitTracker:
             now_ts = int(datetime.now(timezone.utc).timestamp())
             sleep_duration = max(self.reset_timestamp - now_ts + 2, 1)
             logger.warning(
-                "Límite de GitHub API alcanzado (%d%d restantes). Pausando ejecución por %d segundos.",
+                "Límite de GitHub API alcanzado (%d/%d restantes). Pausando ejecución por %d segundos.",
                 self.remaining,
                 self.limit,
                 sleep_duration,
