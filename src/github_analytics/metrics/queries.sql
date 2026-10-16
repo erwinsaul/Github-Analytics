@@ -77,7 +77,7 @@ commits_autor AS(
 )
 SELECT
     u.username,
-    COALESCE(ca.total_commits, 0) as total_commits
+    COALESCE(ca.total_commits, 0) as total_commits,
     COALESCE(ica.issues_creados, 0) as issues_creados,
     COALESCE(ica.issues_resueltos, 0) as issues_resueltos,
     ROUND(COALESCE(ica.lead_time_avg, 0.0), 2) as lead_time_promedio_dias
