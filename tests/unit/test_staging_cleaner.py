@@ -45,7 +45,7 @@ def test_clean_issues_staging_lead_time_calculation(sample_raw_issues_json: list
     assert pytest.approx(row_closed["lead_time_dias"], 0.01) == 2.0
     assert row_closed["assignee_login"] == "colaborador2"
 
-    # Issue 102 abierto: lead_time deb
+    # Issue 102 abierto: lead_time debe ser nulo (NaN) al no haberse resuelto
     row_open = df_clean[df_clean["issue_id"] == 102].to_dict("records")[0]
     assert row_open["state"] == "open"
     assert pd.isna(row_open["lead_time_hours"])
