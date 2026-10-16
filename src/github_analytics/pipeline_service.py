@@ -6,7 +6,7 @@ from github_analytics.config import settings
 from github_analytics.extractors.github_client import GitHubAPIClient
 from github_analytics.extractors.pipeline import RawIngestionPipeline
 from github_analytics.extractors.raw_storage import RawDataLakeWriter
-from github_analytics.transformers.pipeline import StagingPipeline
+from github_analytics.transformers.stating_cleaner import StagingDataCleaner
 from github_analytics.warehouse.db_manager import WarehouseManager
 
 logger = logging.getLogger(__name__)
