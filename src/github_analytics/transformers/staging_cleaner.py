@@ -198,7 +198,7 @@ class StagingDataCleaner:
 
         repo_files = list(self.raw_dir.glob("entity=repository/**/*.parquet"))
         if repo_files:
-            df_raw = pd.read_parquet(repo_files)
+            df_raw = pd.read_parquet(repo_files, partitionin=None)
             df_stg_repos = clean_repositories_staging(df_raw)
             if not df_stg_repos.empty:
                 out_path = self.staging_dir / "stg_repositories.parquet"
@@ -208,7 +208,7 @@ class StagingDataCleaner:
         
         issue_files = list(self.raw_dir.glob("entity=issues/**/*.parquet"))
         if issue_files:
-            df_raw = pd.read_parquet(issue_files)
+            df_raw = pd.read_parquet(issue_files, partitioning=None)
             df_stg_issues = clean_issues_staging(df_raw)
             if not df_stg_issues.empty:
                 out_path = self.staging_dir / "stg_issues.parquet"
@@ -218,7 +218,7 @@ class StagingDataCleaner:
         
         commit_files = list(self.raw_dir.glob("entity=commits/**/*.parquet"))
         if commit_files:
-            df_raw = pd.read_parquet(commit_files)
+            df_raw = pd.read_parquet(commit_files, partitioning=None)
             df_stg_commits = clean_commits_staging(df_raw)
             if not df_stg_commits.empty:
                 out_path = self.staging_dir / "stg_commits.parquet"
