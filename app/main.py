@@ -105,7 +105,7 @@ def main() -> None:
                         repos=repos,
                         progress_callback=lambda step, msg: st.write(f"- **[{step}]** {msg}"),
                     )
-                    res = orchestrator.run_full_pipeline()
+                    orchestrator.run_full_pipeline()
 
                     status.update(
                         label="¡Pipeline compeltado con éxito! Recargando dashboard...",
