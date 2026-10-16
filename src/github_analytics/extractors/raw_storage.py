@@ -50,7 +50,7 @@ class RawDataLakeWriter:
         
         ts = extraction_timestamp or datetime.now(timezone.utc)
         year_val = ts.year
-        moth_val = ts.month
+        month_val = ts.month
 
         # Construir listas de columnas 
         raw_payloads = [json.dumps(r, default=str) for r in records]
@@ -60,7 +60,7 @@ class RawDataLakeWriter:
         repos = [repo] * len(records)
         timestamps = [ts] * len(records)
         years = [year_val] * len(records)
-        months = [moth_val] * len(records)
+        months = [month_val] * len(records)
 
         table = pa.Table.from_arrays(
             [
@@ -91,7 +91,7 @@ class RawDataLakeWriter:
             / f"organization={org}"
             / f"repository={repo}"
             / f"year={year_val}"
-            / f"month={moth_val:02d}"
+            / f"month={month_val:02d}"
         )
         partition_path.mkdir(parents=True, exist_ok=True)
 
