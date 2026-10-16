@@ -54,13 +54,13 @@ class PipelineExecutionService:
         writer = RawDataLakeWriter()
         raw_pipeline = RawIngestionPipeline(client=client, writer=writer)
 
-        bronze_summary = raw_pipeline.run_for_repositories(org=self.org, repos=self.repos)
+        bronze_summary = raw_pipeline.run_for_repositories(self.org, self.repos)
         result["bronze"] = bronze_summary
         self.progress_callback("Bronze", "Extracción cruda finalizada con éxito.")
 
         # 2. Capa Silver (Staging y limpieza en Pandas)
         self.progress_callback("Silver", "Limpiando y tipando datos hacia la capa Staging...")
-        staging_pipeline = StagingDataCleaner()
+        cleaner = StagingDataCleaner()
         silver_summary = cleaner.process_all()
         result["silver"] = silver_summary
         self.progress_callback("Silver", "Transformación a Parquet limpio finalizado.")
